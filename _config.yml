@@ -1,0 +1,27 @@
+title: Pratyush Nandi
+email: "nandiprh@gmail.com"
+description: >-
+  Interested in systems programming. Tinkering with Gentoo, Android BSP, kernel work, PL theory.
+  Notes and tips that I use on my systems .
+baseurl: ""
+url: "https://nandiprh.github.io"
+
+author: Pratyush Nandi
+github_username: nandiprh
+
+theme: minima
+minima:
+  skin: dark
+
+show_excerpts: true
+permalink: /blog/:year/:month/:day/:title/
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+exclude:
+ - vendor/
+ - Gemfile
+ - Gemfile.lock
