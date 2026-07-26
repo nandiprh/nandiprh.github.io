@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Comprehensive guide to Nix on non-nixos systems"
-date: 2026-07-02
+date: 2026-07-26
 categories: networking security
 ---
 
