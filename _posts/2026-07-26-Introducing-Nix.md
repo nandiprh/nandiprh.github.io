@@ -263,6 +263,8 @@ To apply changes
 home-manager switch --flake ~/.config/home-manager#honken
 ```
 The standard command is "home-manager switch --flake <directory name(can be relative or absolute)>#<user>"
+Note: Read the output of home-manager switch properly, you may also choose to backup the file with the -b parameter. During home manager switching a lot of times adding newer gui applications requires the graphics driver to be updated.
+That is relayed by home-manager which is usually "sudo <path to nix store>".
 
 As a particular note, unlike NixOS, on non-nixos systems it cannot replicate system level fuctionalities, because other users cannot access the nixpkgs installed by another user, which is a part of nix security framework.
 Though every package resides in /nix, these are hashed, alongwith the fact that in NixOS, /etc is just a symlink to a file in defined in the nix store.
