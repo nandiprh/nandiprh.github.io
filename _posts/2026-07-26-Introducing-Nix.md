@@ -257,6 +257,12 @@ in
 
 ```
 
+To apply changes
+
+```bash
+home-manager switch --flake ~/.config/home-manager#honken
+```
+The standard command is "home-manager switch --flake <directory name(can be relative or absolute)>#<user>"
 
 As a particular note, unlike NixOS, on non-nixos systems it cannot replicate system level fuctionalities, because other users cannot access the nixpkgs installed by another user, which is a part of nix security framework.
 Though every package resides in /nix, these are hashed, alongwith the fact that in NixOS, /etc is just a symlink to a file in defined in the nix store.
