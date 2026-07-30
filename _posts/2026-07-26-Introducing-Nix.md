@@ -266,6 +266,29 @@ The standard command is "home-manager switch --flake <directory name(can be rela
 Note: Read the output of home-manager switch properly, you may also choose to backup the file with the -b parameter. During home manager switching a lot of times adding newer gui applications requires the graphics driver to be updated.
 That is relayed by home-manager which is usually "sudo <path to nix store>".
 
+```bash
+┌[honken@Pratyush-PC] [/dev/pts/3]
+└[~]> home-manager switch --flake ~/.config/home-manager#honken
+warning: Git tree '/home/honken/.config/home-manager' is dirty
+evaluation warning: 'system' has been renamed to/replaced by 'stdenv.hostPlatform.system'
+Starting Home Manager activation
+Activating checkExistingGpuDrivers
+GPU drivers require an update, run
+  sudo /nix/store/cpj89f3jpz68dg8yrj89qgf2k2jr4mli-non-nixos-gpu/bin/non-nixos-gpu-setup
+Activating checkFilesChanged
+Activating checkLinkTargets
+Please do one of the following:
+- In standalone mode, use 'home-manager switch -b backup' to back up files automatically.
+- When used as a NixOS or nix-darwin module, set either
+  - 'home-manager.backupFileExtension', or
+  - 'home-manager.backupCommand',
+  to move the file to a new location in the same directory, or run a custom command.
+- Set 'force = true' on the related file options to forcefully overwrite the files below. eg. 'xdg.configFile."mimeapps.list".force = true'
+Existing file '/home/honken/.config/user-dirs.dirs' would be clobbered
+┌[honken@Pratyush-PC] [/dev/pts/3] [1]
+└[~]>  sudo /nix/store/cpj89f3jpz68dg8yrj89qgf2k2jr4mli-non-nixos-gpu/bin/non-nixos-gpu-setup
+```
+
 As a particular note, unlike NixOS, on non-nixos systems it cannot replicate system level fuctionalities, because other users cannot access the nixpkgs installed by another user, which is a part of nix security framework.
 Though every package resides in /nix, these are hashed, alongwith the fact that in NixOS, /etc is just a symlink to a file in defined in the nix store.
 Therefore it limits functionalities like a full fledged desktop environment or running systemd service via elevated privileges.
