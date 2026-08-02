@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Porting android device to PostmarketOS (Part-II)"
-date: 2026-08-03
+date: 2026-08-02
 categories: Porting documentation
 ---
 
