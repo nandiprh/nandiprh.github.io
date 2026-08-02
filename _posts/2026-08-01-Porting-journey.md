@@ -564,4 +564,283 @@ sudo emerge -av sys-apps/dtc
 gta4l_extracted.dtb  gta4l_extracted.dts
 ```
 
+```bash
+└[~/postmarketos-old]> ls ~/.local/var/pmbootstrap/cache_git/pmaports/device/testing/device-samsung-gta4l/
 
+# Should contain:
+# APKBUILD
+# deviceinfo
+APKBUILD  deviceinfo  modules-initfs
+┌[honken@Pratyush-PC] [/dev/pts/1]
+└[~/postmarketos-old]> cat ~/.local/var/pmbootstrap/cache_git/pmaports/device/testing/device-samsung-gta4l/deviceinfo ; cat ~/.local/var/pmbootstrap/cache_git/pmaports/device/testing/device-samsung-gta4l/APKBUILD
+# Reference: <https://postmarketos.org/deviceinfo>
+# Please use double quotes only. You can source this file in shell
+# scripts.
+
+deviceinfo_format_version="0"
+deviceinfo_name="samsung Samsung Galaxy Tab A7"
+deviceinfo_manufacturer="samsung"
+deviceinfo_codename="samsung-gta4l"
+deviceinfo_year="2020"
+deviceinfo_dtb=""
+deviceinfo_arch="aarch64"
+
+# Device related
+deviceinfo_chassis="tablet"
+deviceinfo_external_storage="true"
+
+# Bootloader related
+deviceinfo_flash_method="fastboot"
+deviceinfo_kernel_cmdline=""
+deviceinfo_generate_bootimg="true"
+deviceinfo_flash_pagesize="2048"
+deviceinfo_bootimg_qcdt="false"
+deviceinfo_dtb_second="false"
+# Reference: <https://postmarketos.org/devicepkg>
+maintainer=""
+pkgname=device-samsung-gta4l
+pkgdesc="samsung Samsung Galaxy Tab A7"
+pkgver=1
+pkgrel=0
+url="https://postmarketos.org"
+license="MIT"
+arch="aarch64"
+options="!check !archcheck"
+depends="
+        linux-CHANGEME
+        mkbootimg
+        postmarketos-base
+"
+makedepends="devicepkg-dev"
+source="
+        deviceinfo
+        modules-initfs
+"
+
+build() {
+        devicepkg_build $startdir $pkgname
+}
+
+package() {
+        devicepkg_package $startdir $pkgname
+}
+
+sha512sums="(run 'pmbootstrap checksum device-samsung-gta4l' to fill)"
+```
+
+We shall now get a look of the partition table
+```bash
+└[~/postmarketos]> fastboot getvar all
+(bootloader) battery-part-status:unsupported
+(bootloader) cpu-abi:arm64-v8a
+(bootloader) super-partition-name:super
+(bootloader) battery-voltage:4364
+(bootloader) is-force-debuggable:no
+(bootloader) treble-enabled:true
+(bootloader) is-userspace:yes
+(bootloader) max-fetch-size:0x10000000
+(bootloader) partition-size:userdata:0x577C7BE00
+(bootloader) partition-size:cache:0xC800000
+(bootloader) partition-size:rpm:0x80000
+(bootloader) partition-size:storsec:0x20000
+(bootloader) partition-size:mdtp:0x2000000
+(bootloader) partition-size:ssd:0x40000
+(bootloader) partition-size:mmcblk0:0x747C00000
+(bootloader) partition-size:recovery:0x62C0000
+(bootloader) partition-size:misc:0x100000
+(bootloader) partition-size:vbmeta:0x10000
+(bootloader) partition-size:super:0x157000000
+(bootloader) partition-size:metadata:0x1000000
+(bootloader) partition-size:dtbo:0x1800000
+(bootloader) partition-size:boot:0x6000000
+(bootloader) partition-size:system:0x5F4C9000
+(bootloader) partition-size:vendor:0x213F0000
+(bootloader) partition-size:product:0x97757000
+(bootloader) partition-size:odm:0x1A0000
+(bootloader) version-vndk:
+(bootloader) partition-type:userdata:raw
+(bootloader) partition-type:cache:raw
+(bootloader) partition-type:rpm:raw
+(bootloader) partition-type:storsec:raw
+(bootloader) partition-type:mdtp:raw
+(bootloader) partition-type:ssd:raw
+(bootloader) partition-type:mmcblk0:raw
+(bootloader) partition-type:recovery:raw
+(bootloader) partition-type:misc:raw
+(bootloader) partition-type:vbmeta:raw
+(bootloader) partition-type:super:raw
+(bootloader) partition-type:metadata:raw
+(bootloader) partition-type:dtbo:raw
+(bootloader) partition-type:boot:raw
+(bootloader) partition-type:system:raw
+(bootloader) partition-type:vendor:raw
+(bootloader) partition-type:product:raw
+(bootloader) partition-type:odm:raw
+(bootloader) battery-serial-number:unsupported
+(bootloader) has-slot:userdata:no
+(bootloader) has-slot:cache:no
+(bootloader) has-slot:rpm:no
+(bootloader) has-slot:storsec:no
+(bootloader) has-slot:mdtp:no
+(bootloader) has-slot:ssd:no
+(bootloader) has-slot:mmcblk0:no
+(bootloader) has-slot:recovery:no
+(bootloader) has-slot:misc:no
+(bootloader) has-slot:vbmeta:no
+(bootloader) has-slot:super:no
+(bootloader) has-slot:metadata:no
+(bootloader) has-slot:dtbo:no
+(bootloader) has-slot:boot:no
+(bootloader) has-slot:system:no
+(bootloader) has-slot:vendor:no
+(bootloader) has-slot:product:no
+(bootloader) has-slot:odm:no
+(bootloader) security-patch-level:2026-07-01
+(bootloader) vendor-fingerprint:samsung/gta4leea/gta4l:12/SP1A.210812.016/T505XXS8CXG1:user/release-keys
+(bootloader) hw-revision:0
+(bootloader) current-slot:
+(bootloader) serialno:R9ZR502N5LJ
+(bootloader) product:gta4l
+(bootloader) version-os:16
+(bootloader) first-api-level:29
+(bootloader) slot-count:0
+(bootloader) max-download-size:0x10000000
+(bootloader) version:0.4
+(bootloader) version-baseband:
+(bootloader) is-logical:userdata:no
+(bootloader) is-logical:cache:no
+(bootloader) is-logical:rpm:no
+(bootloader) is-logical:storsec:no
+(bootloader) is-logical:mdtp:no
+(bootloader) is-logical:ssd:no
+(bootloader) is-logical:mmcblk0:no
+(bootloader) is-logical:recovery:no
+(bootloader) is-logical:misc:no
+(bootloader) is-logical:vbmeta:no
+(bootloader) is-logical:super:no
+(bootloader) is-logical:metadata:no
+(bootloader) is-logical:dtbo:no
+(bootloader) is-logical:boot:no
+(bootloader) is-logical:system:yes
+(bootloader) is-logical:vendor:yes
+(bootloader) is-logical:product:yes
+(bootloader) is-logical:odm:yes
+(bootloader) battery-soc:100
+(bootloader) secure:yes
+(bootloader) dynamic-partition:true
+(bootloader) system-fingerprint:samsung/gta4leea/gta4l:12/SP1A.210812.016/T505XXS8CXG1:user/release-keys
+(bootloader) version-bootloader:T505XXS8CXG1
+(bootloader) unlocked:yes
+all:
+Finished. Total time: 0.278s
+```
+I'm not pasting the heimdall print-pit output, because its not viable here, but we will extract it and it will remain a good source of comparison
+```bash
+heimdall print-pit
+```
+
+Now we need to clone some important repos, for reference, the device tree from lineage and the android kernel common to the snapdragon 6115.
+```bash
+git clone https://github.com/LineageOS/android_device_samsung_gta4l
+git clone https://github.com/LineageOS/android_kernel_samsung_sm6115
+git clone https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git --depth=1 --no-checkout
+
+# Also as this a work spanning across months, its reccommended to run "git pull" once a while to ensure we are working with the latest developments.
+
+```
+
+I would end the part-I with referencing fastboot, adb and heimdall sources, also providing some essential commands.
+
+```txt
+Official docs:
+https://developer.android.com/tools/adb
+
+Source:
+https://android.googlesource.com/platform/packages/modules/adb
+Official docs:
+https://developer.android.com/tools/fastboot
+
+Protocol spec:
+https://android.googlesource.com/platform/system/core/+/refs/heads/main/fastboot/README.md
+
+Fastbootd (userspace fastboot) specifically:
+https://source.android.com/docs/core/architecture/bootloader/fastbootd
+
+Official repo (Henrik Grimler's maintained fork):
+https://gitlab.com/BenjaminDobell/Heimdall
+
+reference:
+https://gitlab.com/BenjaminDobell/Heimdall/-/blob/master/README.md 
+
+Flashing guide:
+https://wiki.postmarketos.org/wiki/Flashing
+
+Samsung specific:
+https://wiki.postmarketos.org/wiki/Samsung_Galaxy_flashing
+
+Samsung Odin protocol (Heimdall is its open implementation):
+https://wiki.postmarketos.org/wiki/Odin
+
+PIT file format:
+https://wiki.postmarketos.org/wiki/Partition_Information_Table
+
+```
+Android protocol, runs from recovery (fastbootd) requires LineageOS recovery to be present, Samsung removes it from their vendor distributed/ stock ROM
+Fastboot operations-(top choice)
+```bash
+fastboot getvar all          # reading partition table
+fastboot flash boot boot.img    # flashing boot image
+fastboot flash recovery recovery.img  # flashing recovery image
+fastboot devices  # device detection
+fastboot reboot
+fastboot reboot recovery
+fastboot reboot bootloader    # reboots to download mode 
+fastboot get_staged dtbo.img   # needs inquiry from my end
+fastboot flash --read dtbo.img  # needs inquiry
+```
+Fastboot doesn't support reading partitions(This oeration is like extracting images and not to be confused with reading partition table, which gives the info of disk structure)
+
+Heimdall is reverse engineered based on Samsung's Odin protocol, Download mode, always available at hardware level, independent of installed OS
+Heimdall operations
+```bash
+# Needs to be in download mode, or else heimdall operations don't work.
+heimdall print-pit   # print partition-table
+heimdall flash --BOOT boot.img   # flash boot partition
+heimdall flash --RECOVERY recovery.img    # recovery partition
+heimdall download --BOOT lineage_boot.img   # extracting a partition
+heimdall download --DTBO dtbo.img   # reading dtb partition, heimdall cannot extract dtb from a live running kernel, only adb can do so
+heimdall detect   # detect devices
+```
+
+Android Debug Bridge, normal boot or recovery requires USB debugging enabled or recovery ADB
+```bash
+adb root
+adb pull /dev/block/by-name/boot lineage_boot.img
+
+# adb with su
+adb shell su -c "dd if=/dev/block/by-name/boot of=/sdcard/boot.img"
+adb pull /sdcard/boot.img lineage_boot.img
+
+# extracting dtb fom live running kernel
+adb pull /sys/firmware/fdt gta4l_extracted.dtb
+
+# ADB with root
+adb shell su -c "dd if=/dev/block/by-name/DTBO of=/sdcard/dtbo.img"
+adb pull /sdcard/dtbo.img .
+
+adb devices # device detection
+```
+
+With this we have setup the toolchain required, and this will mark the end of Part-I from my end.
+I'm planning to actually write next on the detection of board configuration from the gta4l tree. Then gather more sources on dts writing conventions of android and linux.
+After that we will start writing the dts file for mainline linux kernel, for which we will consider a reference device listed on linus branch, as there are devices that make use of 6115.dts
+
+My idea is to divide the components or peripherals in a hierarchy/priority
+p1.Critical-like ufs storage, serial console and usb
+p2.usability-touchscreen, display, power keys,..
+p3.connectivity-wifi,bluetooth,modem,..
+p4.supporting cast-regulators,cast,..
+
+Well its already too long,I shall close it here.
+
+Thankyou !
