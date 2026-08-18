@@ -253,6 +253,78 @@ Same goes with /etc, there is a clean seperation of base system and user install
 As pkgsrc primarily uses bmake to compile and then pkg_add to install and pkg_delete to remove generated binaries, there needs a centralised config file to control compile time options, like gentoo's /etc/portage/make.conf.
 In case of NetBSD its /etc/mk.conf. It follows the same pattern, a file doesn't exist unless its defaults needs to be overridden.
 All the compile time options are listed in the mk.conf manpage, and the real defaults reside in /usr/pkgsrc/mk/defaults/mk.conf
+
+Now since I will try to port ytm (https://ytm-player.com/), on NetBSD, I need to setup the audio stack.
+```bash
+-audiodev pa,id=snd0 \
+-device intel-hda \
+-device hda-output,audiodev=snd0
+```
+But my host Gentoo system is configured to use pipewire as a sound server than pulseaudio, this still works because pipewire has a running socket for maintaining pulseaudio compatibility.
+```bash
+└[~]> pactl info
+Server String: /run/user/1000/pulse/native
+Library Protocol Version: 35
+Server Protocol Version: 35
+Is Local: yes
+Client Index: 404
+Tile Size: 65472
+User Name: honken
+Host Name: Pratyush-PC
+Server Name: PulseAudio (on PipeWire 1.6.7)
+Server Version: 15.0.0
+Default Sample Specification: float32le 2ch 48000Hz
+Default Channel Map: front-left,front-right
+Default Sink: alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Speaker__sink
+Default Source: alsa_input.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__Mic1__source
+Cookie: 0559:bffe
+```
+Now we activate sound interface up in NetBSD
+```bash
+audioctl -a
+```
+If my host was OpenBSD then I would have had to use -audiodev sndio, because sndio is OpenBSD's audio driver. In Linux we have ALSA(Advanced Linux Sound Architecture),along with libasound, a userspace library that exposes the framwork to programs.Now pulseaudio is a sound server on top of it, it mixes the sound, routes to different outputs, per app streams.
+Pipewire is newer sound server, written from scratch, it has broader scope, implements both pulseaudio and JACK's(pro audio low latency server) functionality.Unifies audio and video/screen capturing routing, opens pulseaudio compat socket and hence pactl info works.
+
+The approach of *BSD to sound server, NetBSD is the 1st to implement the existing 386BSD stack, and in 1999 release notes of 1.4, bring the "audio" stack. Then OpenBSD is born out of forking NetBSD and implements improvenments over audio, and later created something new entirely called "sndio".
+```bash
+man audio
+```
+FreeBSD's approach was very different, its sound and pcm driver was influenced and compatible with 4FrontTechnologies OSS(Open Sound System) API.Unlike Linux userspace servers, FreeBSD does the mixing in the kernel level itself via virtual channels, that requires more exclusive handling request.
+Illumos audio architecture is SADA(Sun Audio Device Architecture),its mostly device driver along with local API oriented.
+**Case study to read: closest thing to "network transparent audio" in Unix history generally was NAS (Network Audio System, from NCSA, later Network Computing Devices) — a genuinely X11-inspired audio equivalent, but it was cross-platform third-party software, never Solaris's own native stack, and never gained the ecosystem traction X11 did — most systems (including Solaris) just didn't prioritize networked audio the way display was prioritized.
+
+Further we can list available audio drivers
+```bash
+└[~]> qemu-system-x86_64 -audiodev help
+Available audio drivers:
+none
+alsa
+dbus
+oss
+pa
+pipewire
+sdl
+wav
+```
+For audio peripheral emulation we can list options
+```bash
+[~]> qemu-system-x86_64 -device help | grep -i hda
+name "hda-duplex", bus HDA, desc "HDA Audio Codec, duplex (line-out, line-in)"
+name "hda-micro", bus HDA, desc "HDA Audio Codec, duplex (speaker, microphone)"
+name "hda-output", bus HDA, desc "HDA Audio Codec, output-only (line-out)"
+name "ich9-intel-hda", bus PCI, desc "Intel HD Audio Controller (ich9)"
+name "intel-hda", bus PCI, desc "Intel HD Audio Controller (ich6)"
+```
+As there is audio handling via pipewire I prefer that:
+```
+-audiodev pipewire,id=snd0 \
+-device intel-hda \
+-device hda-output,audiodev=snd0
+
+# worth noting available options are hda-output(strictly output), hda-duplex(receives input + gives output) and hda-micro(more for microphone and output).
+```
+
 Since this blog has already streched long, I would end it here, with next blog expalaining creation of a pkg and installation, then optimisations using LLVM/Clang, and methods to override the default gcc compiler.
 
 
