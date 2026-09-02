@@ -25,5 +25,3 @@ exclude:
  - vendor/
  - Gemfile
  - Gemfile.lock
-
- include: ["_assets"]
